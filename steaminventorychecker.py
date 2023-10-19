@@ -8,13 +8,17 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 
+
     # Initialize the Chrome WebDriver with the correct executable path
 options = Options()
 options.add_experimental_option('detach', True)
 service = Service(executable_path = r'C:\Users\Natalie\Documents\chromedriver\chromedriver.exe')
 options.binary_location = "C:\\Users\\Natalie\\Documents\\chrome testing binary\\chrome.exe"
 
+
+
 def on_enter():
+    file_object = open('steaminventorydata.txt', 'a')
     user_input = entry.get()
     result_label.config(text=f"You entered: {user_input}")
 
@@ -50,7 +54,10 @@ def on_enter():
     account_value = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'totalvalue')))
     result_label.config(text=account_value.text)
 
-
+    data = [user_input, steam64, account_value.text]
+    formatted_data = ' '.join(data)
+    file_object.write(formatted_data + '\n')
+    file_object.close()
 
 
 root = tk.Tk()
@@ -72,3 +79,4 @@ value_label = tk.Label(root, text='')
 value_label.pack()
 
 root.mainloop()
+
